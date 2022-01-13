@@ -1,0 +1,55 @@
+    body {
+			text-align: center;
+      
+		}
+		table th {
+			border: 1px solid black;
+		}
+    table td {
+			border: 1px solid black;
+		}
+		
+		table {
+			width: 100%;
+      border: 1px solid black;
+		}
+    form {
+      width: 100%;
+      margin: 0px auto;
+      background-color: lightskyblue;
+      padding: 5px 0 5px 0;
+    }
+    label {
+      display: inline-block;
+      width: 100px;
+      font-size: 20px;
+    }
+    .delete:hover {
+      background-color: orange;
+    }
+
+    span {
+      color: red;
+      margin: 0px 0px 0px 100px;
+      padding: 0;
+    }
+    #input, #elite, #avg {
+      margin: 10px;
+    }
+
+  #form div {
+    margin: 30px 0 10px 0;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  @media only screen and (max-width: 767px){
+    form {
+      background-color: lightpink;
+    }
+  }
+  @media only screen and (min-width:  768px) and (max-width: 911px){
+    form {
+      background-color: wheat;
+    }
+  }

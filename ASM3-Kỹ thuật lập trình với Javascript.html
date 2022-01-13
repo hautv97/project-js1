@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Project 3</title>
+	<link href="style-asm3.css" rel="stylesheet" type="text/css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+</head>
+<body>
+	<h1>Bảng Điểm Học Sinh</h1>
+	<form id='form'>
+  <div>
+  <div>  
+  <label>Họ Tên</label>
+	<input type='text' id='name' required>
+  </div>
+  <span id='ten'></span>
+  </div>
+
+  <div>
+  <div>
+  <label>Điểm Toán</label>
+	<input type='text' id='math' required>
+  </div>
+  <span id='toan'></span>
+  </div>
+
+  <div>
+    <div>
+  <label>Điểm Lý</label>
+	<input type='text' id='physical' required>
+  </div>
+  <span id='ly'></span>
+  </div>
+
+  <div>
+    <div>
+  <label>Điểm Hóa</label>
+	<input type='text' id='chemistry' required>
+  </div>
+  <span id='hoa'></span>
+  </div>
+	</form>
+
+	<button id='input' type='button'>Nhập</button>
+  
+	<table id='table'>
+		<tr>
+			<th>STT</th>
+			<th>Họ Tên</th>
+			<th>Toán</th>
+			<th>Lý</th>
+			<th>Hóa</th>
+			<th>Trung bình</th>
+      <th>Xóa</th>
+		</tr>
+	</table></br>
+
+	<button id='avg' type='button'>Tính điểm trung bình</button><button id='elite' type='button'>Xác định học sinh giỏi</button><br>
+
+	<script type="text/javascript">
+
+// Khởi tạo đối tượng testScore để lưu giá trị do người dùng nhập
+    var testScore = {
+      name: '',
+      math: 0,
+      physical: 0,
+      chemistry: 0,
+    };
+
+// Khởi tạo một biến đếm là i dùng để đánh dấu số thứ tự dòng khi người dùng nhập vào
+    var i = 1;
+
+// Hàm nhập giá trị từ input và ghi giá trị bảo từng ô của bảng tương ứng
+    $(document).ready(function (){
+      $('#input').click(function (){
+
+// Đoạn code nhận giá trị từ ô input để gán vào các property của đối tượng testScore. Sau khi người dùng nhập giá trị xong nó cũng tự động xóa trắng ô input
+        testScore.name = $('#name').val();
+        testScore.math = $('#math').val();
+        testScore.physical = $('#physical').val();
+        testScore.chemistry = $('#chemistry').val();
+        $('input:text').val('');
+
+// Điều kiện if else để validate cho form nhập 
+     if ( (testScore.name == '') || (testScore.math == '') || (testScore.physical == '') || (testScore.chemistry == '')) {
+         $('#ten').text('Không được để trống');
+         $('#toan').text('Không để được để trống');
+         $('#ly').text('Không được để trống');
+         $('#hoa').text('Không được để trống');
+        } else if ( isNaN(testScore.math) == true || isNaN(testScore.physical) == true || isNaN(testScore.chemistry) == true) {
+         $('#toan').text('Điểm phải bằng số');
+         $('#ly').text('Điểm phải bằng số');
+         $('#hoa').text('Điểm phải bằng số');
+         $('#ten').text('');
+        } else {
+          $('#ten').text('');
+          $('#toan').text('');
+          $('#ly').text('');
+          $('#hoa').text('');
+
+//Chèn dòng mới vào bảng đồng thời ghi giá trị do người dùng nhập vào ô tương ứng khi người dùng đã vượt qua validate
+          var newRow; 
+          newRow = '<tr><td>' + i++ + '</td><td>' + testScore.name + '</td><td>' + testScore.math + '</td><td>' + testScore.physical + '</td><td>' + testScore.chemistry + '</td><td>' + '?' + '</td><td>' + '</td></tr>'
+          $('tbody').append(newRow);
+        }
+      }); 
+    });
+
+
+// Hàm tính điểm trung bình
+    $(document).ready(function (){
+      $('#avg').click(function (){
+        $('tr').each(function () {
+          var diemToan = $(this).children('td:eq(2)').html();
+          var diemLy = $(this).children('td:eq(3)').html();
+          var diemHoa = $(this).children('td:eq(4)').html();
+          var diemTb = (parseInt(diemToan) + parseInt(diemLy) + parseInt(diemHoa))/3;
+          $(this).children('td:eq(5)').html(diemTb.toFixed(1));
+          $(this).children('td:eq(6)').html('<button>X</button>')
+          $('td button').addClass('delete')
+// Hàm xóa dòng tùy ý, sau khi xóa số thứ tự ở mỗi hàng sẽ được tự động cập nhật
+          $('.delete').on('click', function (){
+         $(this).closest('tr').remove()
+            var row = 0;
+           $('tr').each(function (){
+              $(this).find('td').eq(0).text(row);
+              row++;
+           })
+          });
+        });    
+      });
+    });
+
+   // Hàm xác định học sinh giỏi 
+    $(document).ready(function (){
+      $('#elite').click(function (){
+        $('tr').each(function (){
+          if ($(this).children('td:eq(5)').html() >= 8.0) {
+            $(this).css('backgroundColor', 'red');
+          };
+        });
+      });
+    });
+		
+</script>
+</body>
+</html>
